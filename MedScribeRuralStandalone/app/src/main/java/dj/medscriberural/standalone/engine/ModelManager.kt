@@ -21,12 +21,14 @@ import java.io.File
  */
 object ModelManager {
 
-    private const val MODEL_FILE_NAME = "gemma3n-e2b-it.litertlm"
+    private const val MODEL_FILE_NAME = "gemma-4-E2B-it.litertlm"
 
     // Modèle multimodal (texte + image) recommandé pour l'extraction de
-    // registres manuscrits. À adapter si tu veux un modèle plus/moins lourd.
+    // registres manuscrits. Gemma 4 E2B — le plus petit modèle multimodal
+    // de la famille, ~2-3 Go. À adapter si tu veux un modèle plus/moins lourd
+    // (voir huggingface.co/litert-community pour les autres tailles).
     const val DEFAULT_MODEL_DOWNLOAD_URL =
-        "https://huggingface.co/litert-community/Gemma3n-E2B-it/resolve/main/gemma3n-e2b-it.litertlm"
+        "https://huggingface.co/litert-community/gemma-4-E2B-it-litert-lm/resolve/main/gemma-4-E2B-it.litertlm"
 
     fun modelFile(context: Context): File =
         File(context.getExternalFilesDir("models") ?: context.filesDir, MODEL_FILE_NAME)
