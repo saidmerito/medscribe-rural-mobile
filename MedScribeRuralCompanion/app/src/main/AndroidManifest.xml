@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Photo du registre papier -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
+
+    <!-- Serveur HTTP local (127.0.0.1) pour recevoir les données depuis le Skill Gallery -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <application
+        android:name=".MedScribeApp"
+        android:allowBackup="false"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.MedScribeCompanion">
+
+        <activity
+            android:name=".ui.MainActivity"
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".ui.CaptureActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.EntryDetailActivity"
+            android:exported="false" />
+
+        <!-- Serveur local qui écoute les callbacks du Agent Skill Gallery -->
+        <service
+            android:name=".net.IngestServerService"
+            android:exported="false"
+            android:foregroundServiceType="dataSync" />
+
+        <!-- Provider pour partager la photo (FileProvider requis depuis Android 7+) -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="dj.medscriberural.companion.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+    </application>
+</manifest>

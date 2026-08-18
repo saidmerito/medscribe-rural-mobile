@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MedScribe Rural Companion</string>
+    <string name="capture_register">Photographier un registre</string>
+    <string name="empty_state">Aucune fiche pour l\'instant.\nTapez sur + pour photographier un registre.</string>
+    <string name="banner_gallery_missing">Google AI Edge Gallery n\'est pas installée. Installez-la depuis le Play Store pour activer l\'extraction automatique.</string>
+    <string name="field_patient_name">Nom du patient</string>
+    <string name="field_age">Âge</string>
+    <string name="field_sex">Sexe</string>
+    <string name="field_visit_date">Date de visite</string>
+    <string name="field_diagnosis">Diagnostic</string>
+    <string name="field_treatment">Traitement</string>
+    <string name="field_health_center">Centre de santé</string>
+    <string name="validate_entry">Valider la fiche</string>
+</resources>

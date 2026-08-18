@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <external-files-path name="registers" path="registers/" />
+    <cache-path name="registers_cache" path="registers/" />
+</paths>
