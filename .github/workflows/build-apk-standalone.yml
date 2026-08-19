@@ -94,9 +94,25 @@ jobs:
         if: steps.build.outcome == 'failure'
         run: exit 1
 
+      - name: Lister les fichiers de sortie (diagnostic)
+        run: find app/build/outputs -type f | tee ../ci-logs-outputs.txt || echo "aucun fichier trouve"
+
+      - name: Commit le diagnostic dans le depot
+        run: |
+          mkdir -p ../ci-logs
+          cp ../ci-logs-outputs.txt ../ci-logs/standalone-outputs-listing.txt
+          cd ..
+          git config user.email "ci@medscriberural.local"
+          git config user.name "CI Bot"
+          git add ci-logs/standalone-outputs-listing.txt
+          git commit -m "CI: liste des fichiers de sortie Standalone (diagnostic)" || echo "rien a committer"
+          git pull --rebase origin main
+          git push origin HEAD:main
+
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: MedScribeRuralStandalone-debug
           path: MedScribeRuralStandalone/app/build/outputs/apk/debug/*.apk
+          if-no-files-found: error
           if-no-files-found: error
