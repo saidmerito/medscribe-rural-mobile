@@ -115,4 +115,3 @@ jobs:
           name: MedScribeRuralStandalone-debug
           path: MedScribeRuralStandalone/app/build/outputs/apk/debug/*.apk
           if-no-files-found: error
-          if-no-files-found: error
