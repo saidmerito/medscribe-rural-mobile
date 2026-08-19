@@ -7,6 +7,9 @@ on:
     paths:
       - 'MedScribeRuralCompanion/**'
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -31,7 +34,33 @@ jobs:
           gradle-version: '8.7'
 
       - name: Build debug APK
-        run: gradle assembleDebug --stacktrace
+        id: build
+        continue-on-error: true
+        run: gradle assembleDebug --stacktrace 2>&1 | tee build-output.log
+
+      - name: Save failure log to repo (auto-diagnostic)
+        if: steps.build.outcome == 'failure'
+        run: |
+          mkdir -p ../ci-logs
+          {
+            echo "# Echec build Companion - $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            echo "Run: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+            echo
+            echo '```'
+            tail -n 300 build-output.log
+            echo '```'
+          } > ../ci-logs/companion-last-failure.md
+          cd ..
+          git config user.email "ci@medscriberural.local"
+          git config user.name "CI Bot"
+          git add ci-logs/companion-last-failure.md
+          git commit -m "CI: echec build Companion (auto-diagnostic)" || echo "rien a committer"
+          git pull --rebase origin main
+          git push origin HEAD:main
+
+      - name: Marquer le job en echec si le build a echoue
+        if: steps.build.outcome == 'failure'
+        run: exit 1
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
