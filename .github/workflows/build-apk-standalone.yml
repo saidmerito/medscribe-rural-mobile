@@ -36,7 +36,32 @@ jobs:
       - name: Build debug APK
         id: build
         continue-on-error: true
-        run: gradle assembleDebug --stacktrace 2>&1 | tee build-output.log
+        run: gradle assembleDebug --stacktrace --rerun-tasks 2>&1 | tee build-output.log
+
+      - name: Diagnostic - lister le contenu des outputs (temporaire)
+        run: |
+          mkdir -p ../ci-logs
+          {
+            echo "# Diagnostic outputs Standalone - $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            echo "Run: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+            echo
+            echo "## find app/build/outputs"
+            echo '```'
+            find app/build/outputs -type f 2>&1 || echo "(dossier introuvable)"
+            echo '```'
+            echo
+            echo "## dernières lignes du log de build"
+            echo '```'
+            tail -n 100 build-output.log
+            echo '```'
+          } > ../ci-logs/standalone-diagnostic.md
+          cd ..
+          git config user.email "ci@medscriberural.local"
+          git config user.name "CI Bot"
+          git add ci-logs/standalone-diagnostic.md
+          git commit -m "CI: diagnostic outputs Standalone" || echo "rien a committer"
+          git pull --rebase origin main
+          git push origin HEAD:main
 
       - name: Save failure log to repo (auto-diagnostic)
         if: steps.build.outcome == 'failure'
@@ -67,3 +92,4 @@ jobs:
         with:
           name: MedScribeRuralStandalone-debug
           path: MedScribeRuralStandalone/app/build/outputs/apk/debug/*.apk
+          if-no-files-found: error
