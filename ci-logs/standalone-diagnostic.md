@@ -1,5 +1,5 @@
-# Diagnostic outputs Standalone - 2026-08-19T18:32:40Z
-Run: https://github.com/saidmerito/medscribe-rural-mobile/actions/runs/32287744616
+# Diagnostic outputs Standalone - 2026-08-19T18:38:40Z
+Run: https://github.com/saidmerito/medscribe-rural-mobile/actions/runs/32288256250
 
 ## find app/build/outputs
 ```
@@ -9,9 +9,9 @@ app/build/outputs/logs/manifest-merger-debug-report.txt
 ## section '* What went wrong' (si presente)
 ```
 * What went wrong:
-Execution failed for task ':app:kspDebugKotlin'.
-> A failure occurred while executing com.google.devtools.ksp.gradle.KspAAWorkerAction
-   > unexpected jvm signature V
+Execution failed for task ':app:compileDebugKotlin'.
+> A failure occurred while executing org.jetbrains.kotlin.compilerRunner.GradleCompilerRunnerWithWorkers$GradleKotlinCompilerWorkAction
+   > Compilation error. See log for more details
 
 * Try:
 > Run with --info or --debug option to get more log output.
@@ -19,7 +19,7 @@ Execution failed for task ':app:kspDebugKotlin'.
 > Get more help at https://help.gradle.org.
 
 * Exception is:
-org.gradle.api.tasks.TaskExecutionException: Execution failed for task ':app:kspDebugKotlin'.
+org.gradle.api.tasks.TaskExecutionException: Execution failed for task ':app:compileDebugKotlin'.
 	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.lambda$executeIfValid$1(ExecuteActionsTaskExecuter.java:130)
 	at org.gradle.internal.Try$Failure.ifSuccessfulOrElse(Try.java:282)
 	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.executeIfValid(ExecuteActionsTaskExecuter.java:128)
@@ -68,20 +68,19 @@ Starting a Gradle Daemon (subsequent builds will be faster)
 > Task :app:preDebugBuild UP-TO-DATE
 > Task :app:mergeDebugNativeDebugMetadata NO-SOURCE
 > Task :app:checkKotlinGradlePluginConfigurationErrors SKIPPED
-> Task :app:dataBindingMergeDependencyArtifactsDebug
 > Task :app:generateDebugResValues
+> Task :app:dataBindingMergeDependencyArtifactsDebug
 > Task :app:generateDebugResources
 > Task :app:packageDebugResources
 > Task :app:mergeDebugResources
 > Task :app:parseDebugLocalResources
 > Task :app:checkDebugAarMetadata
-> Task :app:dataBindingGenBaseClassesDebug
 > Task :app:mapDebugSourceSetPaths
+> Task :app:dataBindingGenBaseClassesDebug
 > Task :app:createDebugCompatibleScreenManifests
 > Task :app:extractDeepLinksDebug
 > Task :app:processDebugMainManifest
 > Task :app:processDebugManifest
-> Task :app:processDebugManifestForPackage
 > Task :app:javaPreCompileDebug
 > Task :app:mergeDebugShaders
 > Task :app:compileDebugShaders NO-SOURCE
@@ -89,21 +88,32 @@ Starting a Gradle Daemon (subsequent builds will be faster)
 > Task :app:mergeDebugAssets
 > Task :app:compressDebugAssets
 > Task :app:desugarDebugFileDependencies
-> Task :app:processDebugResources
-> Task :app:checkDebugDuplicateClasses
 > Task :app:mergeDebugStartupProfile
-
-> Task :app:kspDebugKotlin FAILED
-e: [ksp] java.lang.IllegalStateException: unexpected jvm signature V
-
+> Task :app:processDebugManifestForPackage
+> Task :app:checkDebugDuplicateClasses
+> Task :app:processDebugResources
 > Task :app:mergeExtDexDebug
+> Task :app:mergeLibDexDebug
+> Task :app:mergeDebugJniLibFolders
+> Task :app:mergeDebugNativeLibs
+> Task :app:validateSigningDebug
+> Task :app:writeDebugAppMetadata
+> Task :app:writeDebugSigningConfigVersions
+
+> Task :app:stripDebugDebugSymbols
+Unable to strip the following libraries, packaging them as they are: liblitertlm_jni.so.
+
+> Task :app:kspDebugKotlin
+
+> Task :app:compileDebugKotlin FAILED
+e: file:///home/runner/work/medscribe-rural-mobile/medscribe-rural-mobile/MedScribeRuralStandalone/app/src/main/java/dj/medscriberural/standalone/engine/LlmEngineManager.kt:60:29 Unresolved reference 'text'.
 
 FAILURE: Build failed with an exception.
 
 * What went wrong:
-Execution failed for task ':app:kspDebugKotlin'.
-> A failure occurred while executing com.google.devtools.ksp.gradle.KspAAWorkerAction
-   > unexpected jvm signature V
+Execution failed for task ':app:compileDebugKotlin'.
+> A failure occurred while executing org.jetbrains.kotlin.compilerRunner.GradleCompilerRunnerWithWorkers$GradleKotlinCompilerWorkAction
+   > Compilation error. See log for more details
 
 * Try:
 > Run with --info or --debug option to get more log output.
@@ -111,7 +121,7 @@ Execution failed for task ':app:kspDebugKotlin'.
 > Get more help at https://help.gradle.org.
 
 * Exception is:
-org.gradle.api.tasks.TaskExecutionException: Execution failed for task ':app:kspDebugKotlin'.
+org.gradle.api.tasks.TaskExecutionException: Execution failed for task ':app:compileDebugKotlin'.
 	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.lambda$executeIfValid$1(ExecuteActionsTaskExecuter.java:130)
 	at org.gradle.internal.Try$Failure.ifSuccessfulOrElse(Try.java:282)
 	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.executeIfValid(ExecuteActionsTaskExecuter.java:128)
@@ -144,7 +154,7 @@ org.gradle.api.tasks.TaskExecutionException: Execution failed for task ':app:ksp
 	at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.run(DefaultPlanExecutor.java:380)
 	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
 	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
-Caused by: org.gradle.workers.internal.DefaultWorkerExecutor$WorkExecutionException: A failure occurred while executing com.google.devtools.ksp.gradle.KspAAWorkerAction
+Caused by: org.gradle.workers.internal.DefaultWorkerExecutor$WorkExecutionException: A failure occurred while executing org.jetbrains.kotlin.compilerRunner.GradleCompilerRunnerWithWorkers$GradleKotlinCompilerWorkAction
 	at org.gradle.workers.internal.DefaultWorkerExecutor$WorkItemExecution.waitForCompletion(DefaultWorkerExecutor.java:287)
 	at org.gradle.internal.work.DefaultAsyncWorkTracker.lambda$waitForItemsAndGatherFailures$2(DefaultAsyncWorkTracker.java:130)
 	at org.gradle.internal.Factories$1.create(Factories.java:31)
@@ -271,57 +281,10 @@ Caused by: org.gradle.workers.internal.DefaultWorkerExecutor$WorkExecutionExcept
 	at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.run(DefaultPlanExecutor.java:380)
 	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
 	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
-Caused by: java.lang.IllegalStateException: unexpected jvm signature V
-	at androidx.room.compiler.processing.javac.kotlin.JvmDescriptorUtilsKt.typeNameFromJvmSignature(JvmDescriptorUtils.kt:105)
-	at androidx.room.compiler.processing.ksp.KSTypeJavaPoetExtKt.asJTypeName(KSTypeJavaPoetExt.kt:110)
-	at androidx.room.compiler.processing.ksp.KSTypeJavaPoetExtKt.asJTypeName(KSTypeJavaPoetExt.kt:194)
-	at androidx.room.compiler.processing.ksp.KSTypeJavaPoetExtKt.asJTypeName(KSTypeJavaPoetExt.kt:71)
-	at androidx.room.compiler.processing.ksp.KSTypeJavaPoetExtKt.asJTypeName$resolveTypeName(KSTypeJavaPoetExt.kt:157)
-	at androidx.room.compiler.processing.ksp.KSTypeJavaPoetExtKt.asJTypeName(KSTypeJavaPoetExt.kt:162)
-	at androidx.room.compiler.processing.ksp.KSTypeJavaPoetExtKt.asJTypeName(KSTypeJavaPoetExt.kt:184)
-	at androidx.room.compiler.processing.ksp.KSTypeJavaPoetExtKt.asJTypeName(KSTypeJavaPoetExt.kt:170)
-	at androidx.room.compiler.processing.ksp.DefaultKspType.resolveJTypeName(DefaultKspType.kt:36)
-	at androidx.room.compiler.processing.ksp.KspType$xTypeName$2.invoke(KspType.kt:85)
-	at androidx.room.compiler.processing.ksp.KspType$xTypeName$2.invoke(KspType.kt:73)
-	at kotlin.SynchronizedLazyImpl.getValue(LazyJVM.kt:86)
-	at androidx.room.compiler.processing.ksp.KspType.getXTypeName(KspType.kt:73)
-	at androidx.room.compiler.processing.ksp.KspType.asTypeName(KspType.kt:67)
-	at androidx.room.compiler.processing.ksp.KspRawType$xTypeName$2.invoke(KspRawType.kt:36)
-	at androidx.room.compiler.processing.ksp.KspRawType$xTypeName$2.invoke(KspRawType.kt:34)
-	at kotlin.SynchronizedLazyImpl.getValue(LazyJVM.kt:86)
-	at androidx.room.compiler.processing.ksp.KspRawType.getXTypeName(KspRawType.kt:34)
-	at androidx.room.compiler.processing.ksp.KspRawType.equals(KspRawType.kt:50)
-	at kotlin.jvm.internal.Intrinsics.areEqual(Intrinsics.java:169)
-	at androidx.room.processor.SuspendMethodProcessorDelegate$continuationParam$2.invoke(MethodProcessorDelegate.kt:214)
-	at androidx.room.processor.SuspendMethodProcessorDelegate$continuationParam$2.invoke(MethodProcessorDelegate.kt:210)
-	at kotlin.SynchronizedLazyImpl.getValue(LazyJVM.kt:86)
-	at androidx.room.processor.SuspendMethodProcessorDelegate.getContinuationParam(MethodProcessorDelegate.kt:210)
-	at androidx.room.processor.SuspendMethodProcessorDelegate.extractParams(MethodProcessorDelegate.kt:224)
-	at androidx.room.processor.ShortcutMethodProcessor.extractParams(ShortcutMethodProcessor.kt:62)
-	at androidx.room.processor.UpdateMethodProcessor.process(UpdateMethodProcessor.kt:44)
-	at androidx.room.processor.DaoProcessor.process(DaoProcessor.kt:166)
-	at androidx.room.processor.DatabaseProcessor$doProcess$daoMethods$3.invoke(DatabaseProcessor.kt:122)
-	at androidx.room.processor.DatabaseProcessor$doProcess$daoMethods$3.invoke(DatabaseProcessor.kt:96)
-	at kotlin.sequences.TransformingSequence$iterator$1.next(Sequences.kt:243)
-	at kotlin.sequences.FilteringSequence$iterator$1.calcNext(Sequences.kt:203)
-	at kotlin.sequences.FilteringSequence$iterator$1.hasNext(Sequences.kt:227)
-	at kotlin.sequences.SequencesKt___SequencesKt.toList(_Sequences.kt:828)
-	at androidx.room.processor.DatabaseProcessor.doProcess(DatabaseProcessor.kt:125)
-	at androidx.room.processor.DatabaseProcessor.process(DatabaseProcessor.kt:60)
-	at androidx.room.DatabaseProcessingStep$process$databases$1$1.invoke(DatabaseProcessingStep.kt:68)
-	at androidx.room.DatabaseProcessingStep$process$databases$1$1.invoke(DatabaseProcessingStep.kt:64)
-	at androidx.room.processor.Context.collectLogs(Context.kt:192)
-	at androidx.room.DatabaseProcessingStep.process(DatabaseProcessingStep.kt:64)
-	at androidx.room.compiler.processing.CommonProcessorDelegate.processRound(XBasicAnnotationProcessor.kt:130)
-	at androidx.room.compiler.processing.ksp.KspBasicAnnotationProcessor.process(KspBasicAnnotationProcessor.kt:62)
-	at com.google.devtools.ksp.impl.KotlinSymbolProcessing$execute$1$1.invoke(KotlinSymbolProcessing.kt:566)
-	at com.google.devtools.ksp.impl.KotlinSymbolProcessing$execute$1$1.invoke(KotlinSymbolProcessing.kt:564)
-	at ksp.com.google.devtools.ksp.common.IncrementalContextBase.closeFilesOnException(IncrementalContextBase.kt:403)
-	at com.google.devtools.ksp.impl.KotlinSymbolProcessing.execute(KotlinSymbolProcessing.kt:564)
-	at com.google.devtools.ksp.impl.KSPLoader$Companion.loadAndRunKSP(KSPLoader.kt:37)
-	at com.google.devtools.ksp.impl.KSPLoader.loadAndRunKSP(KSPLoader.kt)
-	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
-	at com.google.devtools.ksp.gradle.KspAAWorkerAction.execute(KspAATask.kt:684)
+Caused by: org.jetbrains.kotlin.gradle.tasks.CompilationErrorException: Compilation error. See log for more details
+	at org.jetbrains.kotlin.gradle.tasks.TasksUtilsKt.throwExceptionIfCompilationFailed(tasksUtils.kt:21)
+	at org.jetbrains.kotlin.compilerRunner.GradleKotlinCompilerWork.run(GradleKotlinCompilerWork.kt:112)
+	at org.jetbrains.kotlin.compilerRunner.GradleCompilerRunnerWithWorkers$GradleKotlinCompilerWorkAction.execute(GradleCompilerRunnerWithWorkers.kt:75)
 	at org.gradle.workers.internal.DefaultWorkerServer.execute(DefaultWorkerServer.java:63)
 	at org.gradle.workers.internal.NoIsolationWorkerFactory$1$1.create(NoIsolationWorkerFactory.java:66)
 	at org.gradle.workers.internal.NoIsolationWorkerFactory$1$1.create(NoIsolationWorkerFactory.java:62)
@@ -352,6 +315,6 @@ Caused by: java.lang.IllegalStateException: unexpected jvm signature V
 	... 2 more
 
 
-BUILD FAILED in 1m 31s
-24 actionable tasks: 24 executed
+BUILD FAILED in 2m 1s
+32 actionable tasks: 32 executed
 ```
