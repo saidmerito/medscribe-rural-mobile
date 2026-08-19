@@ -59,10 +59,12 @@ dependencies {
     // Moteur d'inférence on-device — remplace la dépendance à Gallery.
     implementation("com.google.ai.edge.litertlm:litertlm-android:latest.release")
 
-    // Stockage local des fiches, identique au pipeline SQLite existant
-    implementation("androidx.room:room-runtime:2.6.1")
-    implementation("androidx.room:room-ktx:2.6.1")
-    ksp("androidx.room:room-compiler:2.6.1")
+    // Stockage local des fiches, identique au pipeline SQLite existant.
+    // Room 2.8.4 (2.6.1 déclenche un bug connu de KSP2 "unexpected jvm
+    // signature V" sur les fonctions DAO suspend qui retournent Unit).
+    implementation("androidx.room:room-runtime:2.8.4")
+    implementation("androidx.room:room-ktx:2.8.4")
+    ksp("androidx.room:room-compiler:2.8.4")
 
     implementation("org.json:json:20240303")
 }
