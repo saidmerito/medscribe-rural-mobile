@@ -4,6 +4,14 @@ plugins {
     id("com.google.devtools.ksp")
 }
 
+kotlin {
+    // Nouvelle DSL requise par Kotlin 2.3.0 (kotlinOptions{jvmTarget=...} est
+    // désormais une erreur de compilation, pas juste un warning de dépréciation).
+    compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_21)
+    }
+}
+
 android {
     namespace = "dj.medscriberural.standalone"
     compileSdk = 34
@@ -27,9 +35,6 @@ android {
         // Java 17 provoque une erreur "bad class file" à la compilation.
         sourceCompatibility = JavaVersion.VERSION_21
         targetCompatibility = JavaVersion.VERSION_21
-    }
-    kotlinOptions {
-        jvmTarget = "21"
     }
     buildFeatures {
         viewBinding = true
