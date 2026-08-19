@@ -36,7 +36,9 @@ jobs:
       - name: Build debug APK
         id: build
         continue-on-error: true
-        run: gradle assembleDebug --stacktrace --rerun-tasks 2>&1 | tee build-output.log
+        run: |
+          set -o pipefail
+          gradle assembleDebug --stacktrace --rerun-tasks 2>&1 | tee build-output.log
 
       - name: Diagnostic - lister le contenu des outputs (temporaire)
         run: |
@@ -50,9 +52,14 @@ jobs:
             find app/build/outputs -type f 2>&1 || echo "(dossier introuvable)"
             echo '```'
             echo
-            echo "## dernières lignes du log de build"
+            echo "## section '* What went wrong' (si presente)"
             echo '```'
-            tail -n 100 build-output.log
+            grep -A 40 "What went wrong" build-output.log || echo "(non trouve)"
+            echo '```'
+            echo
+            echo "## log complet"
+            echo '```'
+            cat build-output.log
             echo '```'
           } > ../ci-logs/standalone-diagnostic.md
           cd ..
