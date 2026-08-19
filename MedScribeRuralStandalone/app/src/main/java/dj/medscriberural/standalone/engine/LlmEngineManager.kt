@@ -57,7 +57,7 @@ class LlmEngineManager(private val context: Context) {
                     Content.Text(prompt)
                 )
             )
-            return response.text
+            return response.toString()
         }
     }
 
