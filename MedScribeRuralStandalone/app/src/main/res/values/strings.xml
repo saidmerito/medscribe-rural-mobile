@@ -17,4 +17,9 @@
     <string name="field_unite_de_service">Unité de service</string>
     <string name="field_motif">Motif d\'hospitalisation</string>
     <string name="validate_entry">Valider la fiche</string>
+    <string name="col_sexe">Sexe</string>
+    <string name="col_age">Âge</string>
+    <string name="col_adresse">Adresse</string>
+    <string name="col_unite">Unité</string>
+    <string name="col_motif">Motif</string>
 </resources>

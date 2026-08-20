@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity() {
         val app = application as MedScribeStandaloneApp
         lifecycleScope.launch {
             app.database.registerEntryDao().observeAll().collect { entries ->
-                adapter.submitList(entries)
+                adapter.submitEntries(entries)
                 binding.textEmpty.visibility =
                     if (entries.isEmpty()) android.view.View.VISIBLE else android.view.View.GONE
             }

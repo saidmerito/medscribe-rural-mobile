@@ -5,4 +5,17 @@
         <item name="colorPrimaryDark">#004D40</item>
         <item name="colorAccent">#26A69A</item>
     </style>
+
+    <style name="TableCellHeader">
+        <item name="android:textSize">11sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">#AAAAAA</item>
+        <item name="android:paddingHorizontal">4dp</item>
+    </style>
+
+    <style name="TableCell">
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">#EEEEEE</item>
+        <item name="android:paddingHorizontal">4dp</item>
+    </style>
 </resources>
