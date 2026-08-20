@@ -1,5 +1,5 @@
-# Diagnostic outputs Standalone - 2026-08-19T18:49:27Z
-Run: https://github.com/saidmerito/medscribe-rural-mobile/actions/runs/32289264442
+# Diagnostic outputs Standalone - 2026-08-20T13:24:02Z
+Run: https://github.com/saidmerito/medscribe-rural-mobile/actions/runs/32373785999
 
 ## find app/build/outputs
 ```
@@ -56,8 +56,8 @@ Starting a Gradle Daemon (subsequent builds will be faster)
 > Task :app:mergeDebugStartupProfile
 > Task :app:kspDebugKotlin
 > Task :app:mergeExtDexDebug
-> Task :app:mergeLibDexDebug
 > Task :app:mergeDebugJniLibFolders
+> Task :app:mergeLibDexDebug
 > Task :app:mergeDebugNativeLibs
 > Task :app:validateSigningDebug
 > Task :app:writeDebugAppMetadata
@@ -77,6 +77,6 @@ Unable to strip the following libraries, packaging them as they are: liblitertlm
 > Task :app:createDebugApkListingFileRedirect
 > Task :app:assembleDebug
 
-BUILD SUCCESSFUL in 2m 7s
+BUILD SUCCESSFUL in 2m 15s
 40 actionable tasks: 40 executed
 ```
