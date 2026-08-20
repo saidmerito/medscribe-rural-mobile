@@ -1,6 +1,7 @@
 package dj.medscriberural.standalone
 
 import android.app.Application
+import dj.medscriberural.standalone.crash.CrashHandler
 import dj.medscriberural.standalone.data.AppDatabase
 import dj.medscriberural.standalone.engine.LlmEngineManager
 import kotlinx.coroutines.CoroutineScope
@@ -16,4 +17,9 @@ class MedScribeStandaloneApp : Application() {
     // revient tout de suite au dashboard (l'activité se ferme aussitôt la
     // photo prise).
     val applicationScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+
+    override fun onCreate() {
+        super.onCreate()
+        CrashHandler.install(this)
+    }
 }

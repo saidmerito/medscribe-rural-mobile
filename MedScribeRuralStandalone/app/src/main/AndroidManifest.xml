@@ -37,6 +37,10 @@
         <activity android:name=".ui.ModelSetupActivity" android:exported="false" />
         <activity android:name=".ui.CaptureActivity" android:exported="false" />
         <activity android:name=".ui.EntryDetailActivity" android:exported="false" />
+        <activity
+            android:name=".crash.CrashReportActivity"
+            android:exported="false"
+            android:process=":crash_report" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
