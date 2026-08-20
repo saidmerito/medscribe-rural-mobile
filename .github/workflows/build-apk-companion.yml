@@ -55,8 +55,8 @@ jobs:
           git config user.name "CI Bot"
           git add ci-logs/companion-last-failure.md
           git commit -m "CI: echec build Companion (auto-diagnostic)" || echo "rien a committer"
-          git pull --rebase origin main
-          git push origin HEAD:main
+          git pull --rebase origin main || true
+          git push origin HEAD:main || true
 
       - name: Marquer le job en echec si le build a echoue
         if: steps.build.outcome == 'failure'

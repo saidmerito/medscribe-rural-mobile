@@ -38,37 +38,7 @@ jobs:
         continue-on-error: true
         run: |
           set -o pipefail
-          gradle assembleDebug --stacktrace --rerun-tasks 2>&1 | tee build-output.log
-
-      - name: Diagnostic - lister le contenu des outputs (temporaire)
-        run: |
-          mkdir -p ../ci-logs
-          {
-            echo "# Diagnostic outputs Standalone - $(date -u +%Y-%m-%dT%H:%M:%SZ)"
-            echo "Run: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
-            echo
-            echo "## find app/build/outputs"
-            echo '```'
-            find app/build/outputs -type f 2>&1 || echo "(dossier introuvable)"
-            echo '```'
-            echo
-            echo "## section '* What went wrong' (si presente)"
-            echo '```'
-            grep -A 40 "What went wrong" build-output.log || echo "(non trouve)"
-            echo '```'
-            echo
-            echo "## log complet"
-            echo '```'
-            cat build-output.log
-            echo '```'
-          } > ../ci-logs/standalone-diagnostic.md
-          cd ..
-          git config user.email "ci@medscriberural.local"
-          git config user.name "CI Bot"
-          git add ci-logs/standalone-diagnostic.md
-          git commit -m "CI: diagnostic outputs Standalone" || echo "rien a committer"
-          git pull --rebase origin main
-          git push origin HEAD:main
+          gradle assembleDebug --stacktrace 2>&1 | tee build-output.log
 
       - name: Save failure log to repo (auto-diagnostic)
         if: steps.build.outcome == 'failure'
@@ -87,27 +57,12 @@ jobs:
           git config user.name "CI Bot"
           git add ci-logs/standalone-last-failure.md
           git commit -m "CI: echec build Standalone (auto-diagnostic)" || echo "rien a committer"
-          git pull --rebase origin main
-          git push origin HEAD:main
+          git pull --rebase origin main || true
+          git push origin HEAD:main || true
 
       - name: Marquer le job en echec si le build a echoue
         if: steps.build.outcome == 'failure'
         run: exit 1
-
-      - name: Lister les fichiers de sortie (diagnostic)
-        run: find app/build/outputs -type f | tee ../ci-logs-outputs.txt || echo "aucun fichier trouve"
-
-      - name: Commit le diagnostic dans le depot
-        run: |
-          mkdir -p ../ci-logs
-          cp ../ci-logs-outputs.txt ../ci-logs/standalone-outputs-listing.txt
-          cd ..
-          git config user.email "ci@medscriberural.local"
-          git config user.name "CI Bot"
-          git add ci-logs/standalone-outputs-listing.txt
-          git commit -m "CI: liste des fichiers de sortie Standalone (diagnostic)" || echo "rien a committer"
-          git pull --rebase origin main
-          git push origin HEAD:main
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
