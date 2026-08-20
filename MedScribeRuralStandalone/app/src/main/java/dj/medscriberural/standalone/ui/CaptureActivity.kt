@@ -2,6 +2,7 @@ package dj.medscriberural.standalone.ui
 
 import android.net.Uri
 import android.os.Bundle
+import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
@@ -17,9 +18,9 @@ import java.util.Date
 import java.util.Locale
 
 /**
- * Prend une photo, crée la fiche en base, puis lance directement
- * l'inférence via le moteur LiteRT-LM embarqué — plus besoin de quitter
- * l'appli ni d'attendre une réponse externe.
+ * Obtient une photo du registre (appareil photo OU galerie, selon
+ * EXTRA_SOURCE), crée la fiche en base, puis lance directement
+ * l'inférence via le moteur LiteRT-LM embarqué.
  */
 class CaptureActivity : AppCompatActivity() {
 
@@ -29,6 +30,10 @@ class CaptureActivity : AppCompatActivity() {
     private val takePicture = registerForActivityResult(
         ActivityResultContracts.TakePicture()
     ) { success -> if (success) onPhotoCaptured() else finish() }
+
+    private val pickFromGallery = registerForActivityResult(
+        ActivityResultContracts.PickVisualMedia()
+    ) { uri -> if (uri != null) copyFromGalleryThenProceed(uri) else finish() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,7 +48,13 @@ class CaptureActivity : AppCompatActivity() {
         photoUri = FileProvider.getUriForFile(
             this, "dj.medscriberural.standalone.fileprovider", photoFile
         )
-        takePicture.launch(photoUri)
+
+        when (intent.getStringExtra(EXTRA_SOURCE)) {
+            SOURCE_GALLERY -> pickFromGallery.launch(
+                PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+            )
+            else -> takePicture.launch(photoUri)
+        }
     }
 
     private fun createPhotoFile(): File {
@@ -52,11 +63,23 @@ class CaptureActivity : AppCompatActivity() {
         return File(dir, name)
     }
 
+    /** Copie l'image choisie dans la galerie vers notre propre fichier local
+     * (le moteur LiteRT-LM a besoin d'un chemin de fichier réel, pas d'une content:// Uri). */
+    private fun copyFromGalleryThenProceed(sourceUri: Uri) {
+        try {
+            contentResolver.openInputStream(sourceUri)?.use { input ->
+                photoFile.outputStream().use { output -> input.copyTo(output) }
+            }
+            onPhotoCaptured()
+        } catch (e: Exception) {
+            finish()
+        }
+    }
+
     private fun onPhotoCaptured() {
         val app = application as MedScribeStandaloneApp
         // IMPORTANT : on utilise applicationScope (et non lifecycleScope) car
-        // l'activité se ferme tout de suite ci-dessous — lifecycleScope
-        // annulerait l'extraction en cours au moment du finish().
+        // l'activité se ferme tout de suite ci-dessous.
         app.applicationScope.launch {
             val dao = app.database.registerEntryDao()
             val entryId = dao.insert(
@@ -64,7 +87,6 @@ class CaptureActivity : AppCompatActivity() {
             )
 
             try {
-                // (l'activité se ferme juste après cet insert, voir onPhotoCaptured ci-dessus)
                 val rawResponse = app.llmEngineManager.extractFromImage(
                     photoFile.absolutePath,
                     LlmEngineManager.EXTRACTION_USER_PROMPT
@@ -106,5 +128,11 @@ class CaptureActivity : AppCompatActivity() {
         // de fond (applicationScope) et met à jour la fiche quand elle est
         // prête, visible au retour sur le dashboard.
         finish()
+    }
+
+    companion object {
+        const val EXTRA_SOURCE = "extra_source"
+        const val SOURCE_CAMERA = "camera"
+        const val SOURCE_GALLERY = "gallery"
     }
 }

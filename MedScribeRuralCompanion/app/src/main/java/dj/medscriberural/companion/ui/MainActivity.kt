@@ -5,11 +5,13 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import dj.medscriberural.companion.MedScribeApp
+import dj.medscriberural.companion.R
 import dj.medscriberural.companion.databinding.ActivityMainBinding
 import dj.medscriberural.companion.net.GalleryLauncher
 import kotlinx.coroutines.launch
@@ -21,7 +23,7 @@ class MainActivity : AppCompatActivity() {
 
     private val requestCameraPermission = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
-    ) { granted -> if (granted) launchCapture() }
+    ) { granted -> if (granted) launchCapture(CaptureActivity.SOURCE_CAMERA) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +39,7 @@ class MainActivity : AppCompatActivity() {
         binding.recyclerEntries.layoutManager = LinearLayoutManager(this)
         binding.recyclerEntries.adapter = adapter
 
-        binding.fabCapture.setOnClickListener { ensureCameraPermissionThenCapture() }
+        binding.fabCapture.setOnClickListener { showSourcePicker() }
 
         if (!GalleryLauncher.isGalleryInstalled(this)) {
             binding.bannerGalleryMissing.visibility = android.view.View.VISIBLE
@@ -57,13 +59,32 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun showSourcePicker() {
+        val options = arrayOf(
+            getString(R.string.source_camera),
+            getString(R.string.source_gallery)
+        )
+        AlertDialog.Builder(this)
+            .setTitle(R.string.source_picker_title)
+            .setItems(options) { _, which ->
+                if (which == 0) ensureCameraPermissionThenCapture() else launchCapture(CaptureActivity.SOURCE_GALLERY)
+            }
+            .show()
+    }
+
     private fun ensureCameraPermissionThenCapture() {
         val granted = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) ==
             PackageManager.PERMISSION_GRANTED
-        if (granted) launchCapture() else requestCameraPermission.launch(Manifest.permission.CAMERA)
+        if (granted) {
+            launchCapture(CaptureActivity.SOURCE_CAMERA)
+        } else {
+            requestCameraPermission.launch(Manifest.permission.CAMERA)
+        }
     }
 
-    private fun launchCapture() {
-        startActivity(Intent(this, CaptureActivity::class.java))
+    private fun launchCapture(source: String) {
+        startActivity(
+            Intent(this, CaptureActivity::class.java).putExtra(CaptureActivity.EXTRA_SOURCE, source)
+        )
     }
 }

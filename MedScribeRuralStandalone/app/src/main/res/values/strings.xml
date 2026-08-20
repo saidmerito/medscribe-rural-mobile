@@ -2,6 +2,9 @@
 <resources>
     <string name="app_name">MedScribe Rural</string>
     <string name="capture_register">Photographier un registre</string>
+    <string name="source_picker_title">Ajouter une photo</string>
+    <string name="source_camera">Prendre une photo</string>
+    <string name="source_gallery">Choisir depuis la galerie</string>
     <string name="empty_state">Aucune fiche pour l\'instant.\nTapez sur + pour photographier un registre.</string>
     <string name="banner_model_missing">Aucun modèle IA installé. Ouvrez le menu de configuration pour en importer un.</string>
     <string name="model_setup_title">Configuration du modèle IA embarqué</string>
