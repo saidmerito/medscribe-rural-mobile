@@ -1,5 +1,5 @@
-# Diagnostic outputs Standalone - 2026-08-20T13:24:02Z
-Run: https://github.com/saidmerito/medscribe-rural-mobile/actions/runs/32373785999
+# Diagnostic outputs Standalone - 2026-08-20T13:30:05Z
+Run: https://github.com/saidmerito/medscribe-rural-mobile/actions/runs/32374369503
 
 ## find app/build/outputs
 ```
@@ -43,7 +43,6 @@ Starting a Gradle Daemon (subsequent builds will be faster)
 > Task :app:extractDeepLinksDebug
 > Task :app:processDebugMainManifest
 > Task :app:processDebugManifest
-> Task :app:processDebugManifestForPackage
 > Task :app:javaPreCompileDebug
 > Task :app:mergeDebugShaders
 > Task :app:compileDebugShaders NO-SOURCE
@@ -51,21 +50,22 @@ Starting a Gradle Daemon (subsequent builds will be faster)
 > Task :app:mergeDebugAssets
 > Task :app:compressDebugAssets
 > Task :app:desugarDebugFileDependencies
-> Task :app:processDebugResources
-> Task :app:checkDebugDuplicateClasses
 > Task :app:mergeDebugStartupProfile
-> Task :app:kspDebugKotlin
-> Task :app:mergeExtDexDebug
+> Task :app:checkDebugDuplicateClasses
 > Task :app:mergeDebugJniLibFolders
+> Task :app:processDebugManifestForPackage
 > Task :app:mergeLibDexDebug
 > Task :app:mergeDebugNativeLibs
+> Task :app:processDebugResources
 > Task :app:validateSigningDebug
+> Task :app:mergeExtDexDebug
 > Task :app:writeDebugAppMetadata
 > Task :app:writeDebugSigningConfigVersions
 
 > Task :app:stripDebugDebugSymbols
 Unable to strip the following libraries, packaging them as they are: liblitertlm_jni.so.
 
+> Task :app:kspDebugKotlin
 > Task :app:compileDebugKotlin
 > Task :app:compileDebugJavaWithJavac
 > Task :app:dexBuilderDebug
@@ -77,6 +77,6 @@ Unable to strip the following libraries, packaging them as they are: liblitertlm
 > Task :app:createDebugApkListingFileRedirect
 > Task :app:assembleDebug
 
-BUILD SUCCESSFUL in 2m 15s
+BUILD SUCCESSFUL in 2m 2s
 40 actionable tasks: 40 executed
 ```
