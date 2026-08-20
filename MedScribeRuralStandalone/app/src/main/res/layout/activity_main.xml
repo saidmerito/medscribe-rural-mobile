@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:title="@string/app_name" />
@@ -39,6 +40,17 @@
             android:gravity="center"
             android:text="@string/empty_state"
             android:textColor="#888888" />
+
+        <TextView
+            android:id="@+id/textSelectionCount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#26A69A"
+            android:padding="8dp"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp"
+            android:gravity="center"
+            android:visibility="gone" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerEntries"

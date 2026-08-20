@@ -4,6 +4,8 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -14,6 +16,7 @@ import dj.medscriberural.standalone.MedScribeStandaloneApp
 import dj.medscriberural.standalone.R
 import dj.medscriberural.standalone.databinding.ActivityMainBinding
 import dj.medscriberural.standalone.engine.ModelManager
+import dj.medscriberural.standalone.export.ExportHelper
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
@@ -29,13 +32,20 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        setSupportActionBar(binding.toolbar)
 
-        adapter = RegisterEntryAdapter { entry ->
-            startActivity(
-                Intent(this, EntryDetailActivity::class.java)
-                    .putExtra(EntryDetailActivity.EXTRA_ENTRY_ID, entry.id)
-            )
-        }
+        adapter = RegisterEntryAdapter(
+            onRowClick = { entry ->
+                startActivity(
+                    Intent(this, EntryDetailActivity::class.java)
+                        .putExtra(EntryDetailActivity.EXTRA_ENTRY_ID, entry.id)
+                )
+            },
+            onSelectionChanged = { count ->
+                binding.textSelectionCount.visibility = if (count > 0) android.view.View.VISIBLE else android.view.View.GONE
+                binding.textSelectionCount.text = getString(R.string.selection_count, count)
+            }
+        )
         binding.recyclerEntries.layoutManager = LinearLayoutManager(this)
         binding.recyclerEntries.adapter = adapter
 
@@ -55,6 +65,25 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
         binding.bannerModelMissing.visibility =
             if (ModelManager.isModelReady(this)) android.view.View.GONE else android.view.View.VISIBLE
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_export_csv -> {
+                ExportHelper.shareCsv(this, adapter.getEntriesForExport())
+                true
+            }
+            R.id.action_share_text -> {
+                ExportHelper.sharePlainText(this, adapter.getEntriesForExport())
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     private fun observeEntries() {

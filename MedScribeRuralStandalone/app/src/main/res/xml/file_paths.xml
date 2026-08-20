@@ -2,4 +2,5 @@
 <paths>
     <external-files-path name="registers" path="registers/" />
     <cache-path name="registers_cache" path="registers/" />
+    <external-files-path name="exports" path="exports/" />
 </paths>

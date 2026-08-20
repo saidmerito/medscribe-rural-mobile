@@ -22,4 +22,7 @@
     <string name="col_adresse">Adresse</string>
     <string name="col_unite">Unité</string>
     <string name="col_motif">Motif</string>
+    <string name="export_csv">Exporter CSV</string>
+    <string name="share_text">Partager en texte</string>
+    <string name="selection_count">%d ligne(s) sélectionnée(s)</string>
 </resources>
