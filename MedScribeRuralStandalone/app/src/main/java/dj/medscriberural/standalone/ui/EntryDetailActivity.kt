@@ -28,13 +28,11 @@ class EntryDetailActivity : AppCompatActivity() {
         val app = application as MedScribeStandaloneApp
         lifecycleScope.launch {
             val entry = app.database.registerEntryDao().getById(entryId) ?: return@launch
-            binding.editPatientName.setText(entry.patientName)
+            binding.editSexe.setText(entry.sexe)
             binding.editAge.setText(entry.age)
-            binding.editSex.setText(entry.sex)
-            binding.editVisitDate.setText(entry.visitDate)
-            binding.editDiagnosis.setText(entry.diagnosis)
-            binding.editTreatment.setText(entry.treatment)
-            binding.editHealthCenter.setText(entry.healthCenter)
+            binding.editAdresse.setText(entry.adresse)
+            binding.editUniteDeService.setText(entry.uniteDeService)
+            binding.editMotif.setText(entry.motifHospitalisation)
         }
     }
 
@@ -43,13 +41,11 @@ class EntryDetailActivity : AppCompatActivity() {
         lifecycleScope.launch {
             val existing = app.database.registerEntryDao().getById(entryId) ?: return@launch
             val updated = existing.copy(
-                patientName = binding.editPatientName.text?.toString(),
+                sexe = binding.editSexe.text?.toString(),
                 age = binding.editAge.text?.toString(),
-                sex = binding.editSex.text?.toString(),
-                visitDate = binding.editVisitDate.text?.toString(),
-                diagnosis = binding.editDiagnosis.text?.toString(),
-                treatment = binding.editTreatment.text?.toString(),
-                healthCenter = binding.editHealthCenter.text?.toString(),
+                adresse = binding.editAdresse.text?.toString(),
+                uniteDeService = binding.editUniteDeService.text?.toString(),
+                motifHospitalisation = binding.editMotif.text?.toString(),
                 status = RegisterEntry.STATUS_VALIDATED
             )
             app.database.registerEntryDao().update(updated)

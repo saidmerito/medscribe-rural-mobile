@@ -27,13 +27,16 @@ class RegisterEntryAdapter(
 
     override fun onBindViewHolder(holder: VH, position: Int) {
         val entry = getItem(position)
-        holder.title.text = entry.patientName ?: "Fiche #${entry.id}"
-        holder.subtitle.text = listOfNotNull(entry.visitDate, entry.healthCenter, entry.diagnosis)
+        val photoLabel = entry.photoPath.substringAfterLast("/")
+        holder.title.text = listOfNotNull(entry.sexe, entry.age?.let { "$it ans" })
             .joinToString(" · ")
-            .ifBlank { entry.photoPath.substringAfterLast("/") }
+            .ifBlank { "Ligne ${entry.rowIndex + 1}" }
+        holder.subtitle.text = listOfNotNull(entry.uniteDeService, entry.motifHospitalisation, entry.adresse)
+            .joinToString(" · ")
+            .ifBlank { photoLabel }
         holder.status.text = when (entry.status) {
             RegisterEntry.STATUS_PENDING -> "⏳ extraction en cours…"
-            RegisterEntry.STATUS_EXTRACTED -> "✅ extrait"
+            RegisterEntry.STATUS_EXTRACTED -> "✅ $photoLabel (ligne ${entry.rowIndex + 1})"
             RegisterEntry.STATUS_ERROR -> "❌ ${entry.errorMessage ?: "erreur"}"
             RegisterEntry.STATUS_VALIDATED -> "☑️ validé"
             else -> entry.status

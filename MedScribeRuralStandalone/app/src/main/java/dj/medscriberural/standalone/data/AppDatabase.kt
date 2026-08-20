@@ -5,7 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [RegisterEntry::class], version = 1, exportSchema = false)
+@Database(entities = [RegisterEntry::class], version = 2, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun registerEntryDao(): RegisterEntryDao
 
@@ -18,7 +18,12 @@ abstract class AppDatabase : RoomDatabase() {
                     context.applicationContext,
                     AppDatabase::class.java,
                     "medscribe_rural.db"
-                ).build().also { INSTANCE = it }
+                )
+                    // Schéma v1 -> v2 : passage d'une fiche/photo à plusieurs
+                    // lignes/photo. Base encore en phase de test terrain, pas
+                    // de migration de données nécessaire pour l'instant.
+                    .fallbackToDestructiveMigration()
+                    .build().also { INSTANCE = it }
             }
     }
 }

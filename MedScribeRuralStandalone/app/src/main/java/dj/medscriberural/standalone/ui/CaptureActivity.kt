@@ -12,6 +12,7 @@ import dj.medscriberural.standalone.engine.JsonExtraction
 import dj.medscriberural.standalone.engine.LlmEngineManager
 import dj.medscriberural.standalone.engine.ModelManager
 import kotlinx.coroutines.launch
+import org.json.JSONObject
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -91,24 +92,23 @@ class CaptureActivity : AppCompatActivity() {
                     photoFile.absolutePath,
                     LlmEngineManager.EXTRACTION_USER_PROMPT
                 )
-                val json = JsonExtraction.extractJsonObject(rawResponse)
-                val current = dao.getById(entryId) ?: return@launch
 
-                if (json != null) {
-                    dao.update(
-                        current.copy(
-                            patientName = json.optString("patientName").ifBlank { null },
-                            age = json.optString("age").ifBlank { null },
-                            sex = json.optString("sex").ifBlank { null },
-                            visitDate = json.optString("visitDate").ifBlank { null },
-                            diagnosis = json.optString("diagnosis").ifBlank { null },
-                            treatment = json.optString("treatment").ifBlank { null },
-                            healthCenter = json.optString("healthCenter").ifBlank { null },
-                            rawExtractionJson = json.toString(),
-                            status = RegisterEntry.STATUS_EXTRACTED
-                        )
-                    )
-                } else {
+                val jsonArray = JsonExtraction.extractJsonArray(rawResponse)
+                val rows: List<JSONObject> = when {
+                    jsonArray != null -> (0 until jsonArray.length()).mapNotNull { i ->
+                        jsonArray.optJSONObject(i)
+                    }
+                    else -> {
+                        // Repli : le modèle a renvoyé un seul objet au lieu d'un tableau
+                        // (arrive parfois quand une seule ligne est visible sur la photo).
+                        JsonExtraction.extractJsonObject(rawResponse)?.let { listOf(it) } ?: emptyList()
+                    }
+                }
+
+                // La fiche "pending" créée plus haut portait déjà rowIndex=0 ; on la
+                // met à jour pour la première ligne, puis on insère les suivantes.
+                if (rows.isEmpty()) {
+                    val current = dao.getById(entryId) ?: return@launch
                     dao.update(
                         current.copy(
                             status = RegisterEntry.STATUS_ERROR,
@@ -116,6 +116,21 @@ class CaptureActivity : AppCompatActivity() {
                             errorMessage = "Le modèle n'a pas renvoyé de JSON exploitable."
                         )
                     )
+                } else {
+                    val current = dao.getById(entryId) ?: return@launch
+                    dao.update(rowToEntry(current, rows[0], rowIndex = 0, rawResponse))
+
+                    if (rows.size > 1) {
+                        val extraEntries = rows.drop(1).mapIndexed { index, row ->
+                            rowToEntry(
+                                base = RegisterEntry(photoPath = photoFile.absolutePath),
+                                row = row,
+                                rowIndex = index + 1,
+                                rawResponse = rawResponse
+                            )
+                        }
+                        dao.insertAll(extraEntries)
+                    }
                 }
             } catch (e: Exception) {
                 val current = dao.getById(entryId) ?: return@launch
@@ -129,6 +144,19 @@ class CaptureActivity : AppCompatActivity() {
         // prête, visible au retour sur le dashboard.
         finish()
     }
+
+    /** Applique les champs d'une ligne extraite (JSON) à une fiche RegisterEntry. */
+    private fun rowToEntry(base: RegisterEntry, row: JSONObject, rowIndex: Int, rawResponse: String): RegisterEntry =
+        base.copy(
+            rowIndex = rowIndex,
+            sexe = row.optString("sexe").ifBlank { null },
+            age = row.optString("age").ifBlank { null },
+            adresse = row.optString("adresse").ifBlank { null },
+            uniteDeService = row.optString("uniteDeService").ifBlank { null },
+            motifHospitalisation = row.optString("motifHospitalisation").ifBlank { null },
+            rawExtractionJson = row.toString(),
+            status = RegisterEntry.STATUS_EXTRACTED
+        )
 
     companion object {
         const val EXTRA_SOURCE = "extra_source"

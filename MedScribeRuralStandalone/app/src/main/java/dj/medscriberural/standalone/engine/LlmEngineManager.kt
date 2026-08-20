@@ -69,16 +69,23 @@ class LlmEngineManager(private val context: Context) {
     companion object {
         private const val EXTRACTION_SYSTEM_PROMPT = """
 Tu es un assistant qui digitalise des registres de santé manuscrits pour
-un centre de santé rural à Djibouti. Réponds UNIQUEMENT avec un objet JSON
-valide, sans texte autour, avec exactement ces clés (chaîne vide si un
-champ est illisible ou absent) :
-{"patientName":"","age":"","sex":"","visitDate":"","diagnosis":"","treatment":"","healthCenter":""}
-Ne devine jamais une valeur que tu ne peux pas lire clairement sur l'image.
+un centre de santé à Djibouti. Chaque photo montre une page de registre
+sous forme de tableau, avec en général plusieurs lignes (une par patient).
+
+Réponds UNIQUEMENT avec un tableau JSON, sans texte autour, contenant un
+objet par ligne du tableau visible sur la photo, dans l'ordre où elles
+apparaissent de haut en bas. Chaque objet doit avoir exactement ces clés
+(chaîne vide si un champ est illisible, absent, ou marqué par un tiret) :
+[{"sexe":"M ou F","age":"","adresse":"","uniteDeService":"","motifHospitalisation":""}]
+
+Ne fusionne jamais deux lignes ensemble et n'invente aucune ligne qui
+n'est pas visible sur la photo. Ne devine jamais une valeur que tu ne
+peux pas lire clairement.
 """
 
         // Prompt envoyé à chaque extraction, avec l'image en pièce jointe.
         const val EXTRACTION_USER_PROMPT =
-            "Extrait les informations de cette page de registre de santé manuscrit au format JSON demandé."
+            "Extrait toutes les lignes de cette page de registre de santé manuscrit au format JSON demandé."
 
         @Volatile private var INSTANCE: LlmEngineManager? = null
 

@@ -11,12 +11,10 @@
     <string name="import_model_file">Importer un fichier .litertlm</string>
     <string name="download_model">Télécharger le modèle (une seule fois)</string>
     <string name="continue_button">Continuer</string>
-    <string name="field_patient_name">Nom du patient</string>
+    <string name="field_sexe">Sexe</string>
     <string name="field_age">Âge</string>
-    <string name="field_sex">Sexe</string>
-    <string name="field_visit_date">Date de visite</string>
-    <string name="field_diagnosis">Diagnostic</string>
-    <string name="field_treatment">Traitement</string>
-    <string name="field_health_center">Centre de santé</string>
+    <string name="field_adresse">Adresse</string>
+    <string name="field_unite_de_service">Unité de service</string>
+    <string name="field_motif">Motif d\'hospitalisation</string>
     <string name="validate_entry">Valider la fiche</string>
 </resources>

@@ -12,9 +12,9 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/field_patient_name">
+            android:hint="@string/field_sexe">
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editPatientName"
+                android:id="@+id/editSexe"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -32,9 +32,9 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/field_sex">
+            android:hint="@string/field_adresse">
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editSex"
+                android:id="@+id/editAdresse"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -42,9 +42,9 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/field_visit_date">
+            android:hint="@string/field_unite_de_service">
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editVisitDate"
+                android:id="@+id/editUniteDeService"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -52,29 +52,9 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/field_diagnosis">
+            android:hint="@string/field_motif">
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editDiagnosis"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/field_treatment">
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editTreatment"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/field_health_center">
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editHealthCenter"
+                android:id="@+id/editMotif"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
