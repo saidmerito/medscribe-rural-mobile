@@ -1,5 +1,5 @@
-# Diagnostic outputs Standalone - 2026-08-20T13:30:05Z
-Run: https://github.com/saidmerito/medscribe-rural-mobile/actions/runs/32374369503
+# Diagnostic outputs Standalone - 2026-08-20T16:53:54Z
+Run: https://github.com/saidmerito/medscribe-rural-mobile/actions/runs/32394284273
 
 ## find app/build/outputs
 ```
@@ -51,22 +51,25 @@ Starting a Gradle Daemon (subsequent builds will be faster)
 > Task :app:compressDebugAssets
 > Task :app:desugarDebugFileDependencies
 > Task :app:mergeDebugStartupProfile
-> Task :app:checkDebugDuplicateClasses
 > Task :app:mergeDebugJniLibFolders
+> Task :app:checkDebugDuplicateClasses
 > Task :app:processDebugManifestForPackage
-> Task :app:mergeLibDexDebug
 > Task :app:mergeDebugNativeLibs
 > Task :app:processDebugResources
-> Task :app:validateSigningDebug
 > Task :app:mergeExtDexDebug
-> Task :app:writeDebugAppMetadata
-> Task :app:writeDebugSigningConfigVersions
+> Task :app:mergeLibDexDebug
 
 > Task :app:stripDebugDebugSymbols
 Unable to strip the following libraries, packaging them as they are: liblitertlm_jni.so.
 
+> Task :app:validateSigningDebug
+> Task :app:writeDebugAppMetadata
+> Task :app:writeDebugSigningConfigVersions
 > Task :app:kspDebugKotlin
+
 > Task :app:compileDebugKotlin
+w: file:///home/runner/work/medscribe-rural-mobile/medscribe-rural-mobile/MedScribeRuralStandalone/app/src/main/java/dj/medscriberural/standalone/data/AppDatabase.kt:25:22 'fun fallbackToDestructiveMigration(): RoomDatabase.Builder<AppDatabase>' is deprecated. Replace by overloaded version with parameter to indicate if all tables should be dropped or not.
+
 > Task :app:compileDebugJavaWithJavac
 > Task :app:dexBuilderDebug
 > Task :app:mergeDebugGlobalSynthetics
@@ -77,6 +80,6 @@ Unable to strip the following libraries, packaging them as they are: liblitertlm
 > Task :app:createDebugApkListingFileRedirect
 > Task :app:assembleDebug
 
-BUILD SUCCESSFUL in 2m 2s
+BUILD SUCCESSFUL in 2m 35s
 40 actionable tasks: 40 executed
 ```
