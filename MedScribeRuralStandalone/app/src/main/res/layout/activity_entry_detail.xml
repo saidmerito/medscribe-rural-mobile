@@ -66,5 +66,14 @@
             android:layout_marginTop="16dp"
             android:text="@string/validate_entry" />
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonDelete"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textColor="#D32F2F"
+            android:text="@string/delete_this_entry" />
+
     </LinearLayout>
 </ScrollView>

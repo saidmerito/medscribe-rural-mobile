@@ -82,8 +82,51 @@ class MainActivity : AppCompatActivity() {
                 ExportHelper.sharePlainText(this, adapter.getEntriesForExport())
                 true
             }
+            R.id.action_delete_selected -> {
+                confirmDeleteSelected()
+                true
+            }
+            R.id.action_delete_all -> {
+                confirmDeleteAll()
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun confirmDeleteSelected() {
+        val selected = adapter.getSelectedEntries()
+        if (selected.isEmpty()) {
+            android.widget.Toast.makeText(this, R.string.delete_none_selected, android.widget.Toast.LENGTH_SHORT).show()
+            return
+        }
+        AlertDialog.Builder(this)
+            .setTitle(getString(R.string.delete_confirm_title, selected.size))
+            .setMessage(R.string.delete_confirm_message)
+            .setNegativeButton(R.string.cancel, null)
+            .setPositiveButton(R.string.delete_selected) { _, _ ->
+                val app = application as MedScribeStandaloneApp
+                lifecycleScope.launch {
+                    app.database.registerEntryDao().deleteByIds(selected.map { it.id })
+                    adapter.clearSelection()
+                }
+            }
+            .show()
+    }
+
+    private fun confirmDeleteAll() {
+        AlertDialog.Builder(this)
+            .setTitle(R.string.delete_all_confirm_title)
+            .setMessage(R.string.delete_all_confirm_message)
+            .setNegativeButton(R.string.cancel, null)
+            .setPositiveButton(R.string.delete_all) { _, _ ->
+                val app = application as MedScribeStandaloneApp
+                lifecycleScope.launch {
+                    app.database.registerEntryDao().deleteAll()
+                    adapter.clearSelection()
+                }
+            }
+            .show()
     }
 
     private fun observeEntries() {

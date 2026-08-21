@@ -29,4 +29,10 @@ interface RegisterEntryDao {
 
     @Query("SELECT * FROM register_entries WHERE photoPath = :photoPath ORDER BY rowIndex ASC")
     suspend fun getByPhotoPath(photoPath: String): List<RegisterEntry>
+
+    @Query("DELETE FROM register_entries WHERE id IN (:ids)")
+    suspend fun deleteByIds(ids: List<Long>)
+
+    @Query("DELETE FROM register_entries")
+    suspend fun deleteAll()
 }

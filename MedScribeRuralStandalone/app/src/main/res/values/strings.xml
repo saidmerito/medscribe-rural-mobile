@@ -25,4 +25,14 @@
     <string name="export_csv">Exporter CSV</string>
     <string name="share_text">Partager en texte</string>
     <string name="selection_count">%d ligne(s) sélectionnée(s)</string>
+    <string name="delete_selected">Supprimer</string>
+    <string name="delete_all">Tout supprimer</string>
+    <string name="delete_none_selected">Coche d\'abord les lignes à supprimer.</string>
+    <string name="delete_confirm_title">Supprimer %d ligne(s) ?</string>
+    <string name="delete_confirm_message">Cette action est irréversible.</string>
+    <string name="delete_all_confirm_title">Tout supprimer ?</string>
+    <string name="delete_all_confirm_message">Toutes les fiches enregistrées seront définitivement effacées. Cette action est irréversible.</string>
+    <string name="cancel">Annuler</string>
+    <string name="delete_this_entry">Supprimer cette fiche</string>
+    <string name="delete_entry_confirm_title">Supprimer cette fiche ?</string>
 </resources>

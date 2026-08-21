@@ -1,9 +1,11 @@
 package dj.medscriberural.standalone.ui
 
 import android.os.Bundle
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import dj.medscriberural.standalone.MedScribeStandaloneApp
+import dj.medscriberural.standalone.R
 import dj.medscriberural.standalone.data.RegisterEntry
 import dj.medscriberural.standalone.databinding.ActivityEntryDetailBinding
 import kotlinx.coroutines.launch
@@ -22,6 +24,7 @@ class EntryDetailActivity : AppCompatActivity() {
         loadEntry()
 
         binding.buttonValidate.setOnClickListener { saveAndValidate() }
+        binding.buttonDelete.setOnClickListener { confirmDelete() }
     }
 
     private fun loadEntry() {
@@ -51,6 +54,21 @@ class EntryDetailActivity : AppCompatActivity() {
             app.database.registerEntryDao().update(updated)
             finish()
         }
+    }
+
+    private fun confirmDelete() {
+        AlertDialog.Builder(this)
+            .setTitle(R.string.delete_entry_confirm_title)
+            .setMessage(R.string.delete_confirm_message)
+            .setNegativeButton(R.string.cancel, null)
+            .setPositiveButton(R.string.delete_selected) { _, _ ->
+                val app = application as MedScribeStandaloneApp
+                lifecycleScope.launch {
+                    app.database.registerEntryDao().deleteByIds(listOf(entryId))
+                    finish()
+                }
+            }
+            .show()
     }
 
     companion object {
